@@ -13,19 +13,19 @@ node {
     }
     stage('build') {
         withCredentials([usernamePassword(usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS', credentialsId: dockerCredId)]) {
-            def loginout = sh(returnStdout: true, script: "echo ${DOCKER_PASS} | docker login ${dockerRepo} --username ${DOCKER_USER} --password-stdin")
+            loginout = sh(returnStdout: true, script: "echo ${DOCKER_PASS} | docker login ${dockerRepo} --username ${DOCKER_USER} --password-stdin")
             println loginout
-            def buildout = sh(returnStdout: true, script: "docker build -t ${appName} -f ${dockerfilePathFromRoot} .")
+            buildout = sh(returnStdout: true, script: "docker build -t ${appName} -f ${dockerfilePathFromRoot} .")
             println buildout
         }
     }
     stage('push') {
-        def tagout = sh(returnStdout: true, script: "docker tag ${appName} ${fullImageName}")
+        tagout = sh(returnStdout: true, script: "docker tag ${appName} ${fullImageName}")
         println tagout
         withCredentials([usernamePassword(usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS', credentialsId: dockerCredId)]) {
-            def loginout = sh(returnStdout: true, script: "echo ${DOCKER_PASS} | docker login ${dockerRepo} --username ${DOCKER_USER} --password-stdin")
+            loginout = sh(returnStdout: true, script: "echo ${DOCKER_PASS} | docker login ${dockerRepo} --username ${DOCKER_USER} --password-stdin")
             println loginout
-            def pushout = sh(returnStdout: true, script: "docker push ${fullImageName}")
+            pushout = sh(returnStdout: true, script: "docker push ${fullImageName}")
             println pushout
         }
     }
