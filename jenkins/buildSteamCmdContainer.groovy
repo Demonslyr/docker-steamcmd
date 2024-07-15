@@ -10,9 +10,6 @@ node {
         dockerCredId = "${DockerCredentials}"
         dockerfilePathFromRoot = "${DockerFilePathAndFilename}" // this is the path from the base directory
         fullImageName = "${dockerRepo}/${appName}:v1.0.${BUILD_NUMBER}"
-        gitOpsRepo = "${GitOpsRepo}"
-        gitOpsBranch = "${GitOpsBranch}"
-        pathToDeploymentYaml = "${PathToDeploymentYaml}"
     }
     stage('build') {
         withCredentials([usernamePassword(usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS', credentialsId: dockerCredId)]) {
