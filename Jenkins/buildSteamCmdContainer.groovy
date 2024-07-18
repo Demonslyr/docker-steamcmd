@@ -24,7 +24,7 @@ node {
                 def loginout = sh(returnStdout: true, script: "echo ${DOCKER_PASS} | docker login ${dockerRepo} --username ${DOCKER_USER} --password-stdin")
                 println loginout
 
-                def buildout = sh(returnStdout: true, script: "docker build -t ${appName} -f ${dockerfile} .")
+                def buildout = sh(returnStdout: true, script: "docker build --no-cache -t ${appName} -f ${dockerfile} .")
                 println buildout
 
                 def tagout = sh(returnStdout: true, script: "docker tag ${appName} ${fullImageName}")
