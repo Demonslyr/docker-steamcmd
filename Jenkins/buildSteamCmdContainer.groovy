@@ -17,7 +17,8 @@ node {
 
         for (dockerfile in dockerfiles) {
             def dockerfileName = dockerfile.split('/')[-1]
-            def tagName = dockerfileName.replace("${dockerFilePrefix}", '')
+            def tagName = dockerfileName.replace("${dockerFilePrefix}", '').replaceFirst(/(\d{2})(\d{2})$/, '$1.$2')
+
             def fullImageName = "${dockerRepo}/${appName}:${tagName}"
 
             withCredentials([usernamePassword(usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS', credentialsId: dockerCredId)]) {
